@@ -1,0 +1,114 @@
+<html>
+<head>
+  <title>Survey Form!</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+</head>
+<style>
+    .inputs {
+    display: flex;
+    justify-content: space-between;
+    width: 400px;
+    padding: 10px;
+}
+.submit {
+    background: #ffeb3b;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+}
+</style>
+<body>
+  <div style="margin:100px;" class="navbar navbar-inverse navbar-static-top">
+  <div class="container">
+    <a class="navbar-brand" href="/">Survey!</a>
+  </div>
+</nav>
+    <div class="jumbotron"  style="padding:40px;">
+      <h2>Survey Questionnaire!</h2>
+
+      <div id="myForm">
+        <div >
+            <div class="inputs">
+                <label > Name </label>
+                <input id="fName" name="FName" type="text" required />
+              </div>
+
+              <div class="inputs">
+                <label > Cohort </label>
+                <input id="cohort" name="Cohort" type="text" required />
+              </div>
+
+              <div class="inputs">
+                <label > Session type</label>
+                <input id="sessionType" name="Session type" type="text" required />
+              </div>
+
+              <div class="inputs">
+                <label > Score </label>
+                <input id="score" name="Score" type="text" required />
+              </div>
+
+              <div class="inputs">
+                <label > Description </label>
+                <input id="description" name="Description" type="text" required />
+              </div>
+                <div class="inputs">
+                    <button class="submit" id="jsonbtn" >Click for submit</button>
+                </div>
+            </div>
+
+      </div>
+  
+      <p id="jsontext"></p>
+
+        </div>
+
+  </div>
+
+<script>
+    var Name = document.getElementById("fName");
+    var Cohort = document.getElementById("cohort");
+    var SessionType = document.getElementById("sessionType");
+    var Score = document.getElementById("score");
+    var Description = document.getElementById("description");
+    var jsonBtn = document.getElementById("jsonbtn");
+    var jsonText = document.getElementById("jsontext");
+
+     function sendOk() {
+        document.getElementById("myForm").style.display = "none";
+        jsonText.innerHTML = "Your comment has been successfully registered!";
+    }
+
+    jsonBtn.addEventListener("click", async function(){
+        var data = {
+            Name :fName.value,
+            Cohort :Cohort.value,
+            SessionType :SessionType.value,
+            Score :Score.value,
+            Description :Description.value
+        }
+        
+        // console.log(JSON.parse(JSON.stringify(data)));
+        let response = await fetch('http://localhost:8090/api/orders', {
+            method: 'POST',
+            headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+            body: JSON.stringify(data)
+        });
+        console.log(response.status);
+        {response.status == 201 ? sendOk() : "Error"};
+    })   
+
+    console.log("hi");
+
+</script>
+</body>
+</html>
